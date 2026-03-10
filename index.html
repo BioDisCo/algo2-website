@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithmique avancée (Partie 2)</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --muted: #555;
+            --accent: #2c5aa0;
+            --border: #ddd;
+            --stripe: #f7f9fc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        header p {
+            color: var(--muted);
+            margin-top: 0.3rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 2rem 0 0.8rem;
+            color: var(--text);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.3rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-grid dt {
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .info-grid dd {
+            color: var(--text);
+        }
+
+        a { color: var(--accent); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+            font-size: 0.92rem;
+        }
+
+        thead th {
+            background: var(--accent);
+            color: #fff;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        tbody tr:nth-child(even) { background: var(--stripe); }
+        tbody tr:hover { background: #edf2fa; }
+
+        td {
+            padding: 0.55rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .note {
+            color: var(--muted);
+            font-size: 0.82rem;
+            font-style: italic;
+        }
+
+        .no-class {
+            color: #999;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            table { font-size: 0.82rem; }
+            td, th { padding: 0.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Algorithmique avancée (Partie 2)</h1>
+    <p>Année 2025&ndash;2026</p>
+</header>
+
+<h2>Informations pratiques</h2>
+<dl class="info-grid">
+    <dt>Enseignant</dt>
+    <dd><a href="https://www.thomasnowak.net/">Thomas Nowak</a></dd>
+    <dt>Chargé de TD</dt>
+    <dd><a href="https://ghoshdhruba.github.io/">Dhrubajyoti Ghosh</a></dd>
+    <dt>Salle</dt>
+    <dd>1Z61, ENS Paris-Saclay</dd>
+    <dt>Cours magistral</dt>
+    <dd>Lundi 8h15&ndash;10h15</dd>
+    <dt>Récitation</dt>
+    <dd>Mardi 9h&ndash;10h</dd>
+    <dt>TD</dt>
+    <dd>Jeudi 9h&ndash;11h</dd>
+    <dt>Polycopié</dt>
+    <dd><a href="algo2.pdf">Notes de cours (PDF)</a></dd>
+</dl>
+
+<h2>Planning</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Sem.</th>
+            <th>Cours magistral (lun.)</th>
+            <th>Récitation (mar.)</th>
+            <th>TD (jeu.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>6<br><span class="note">23&ndash;27 fév.</span></td>
+            <td>Approximation : intro 
+                <div class="note">Cours le jeu. 19 fév.</div>
+            </td>
+            <td class="no-class">&mdash;</td>
+            <td class="no-class">&mdash;</td>
+        </tr>
+        <tr>
+            <td>7<br><span class="note">9&ndash;13 mars</span></td>
+            <td>Approximation : combinatoire</td>
+            <td>Approximation</td>
+            <td>Approximation : set cover</td>
+        </tr>
+        <tr>
+            <td>8<br><span class="note">16&ndash;20 mars</span></td>
+            <td>Approximation : programmation linéaire</td>
+            <td>Approximation : programmation linéaire</td>
+            <td class="note">Partiel (partie 1)</td>
+        </tr>
+        <tr>
+            <td>9<br><span class="note">23&ndash;27 mars</span></td>
+            <td>Algorithmes de texte</td>
+            <td>Algorithmes de texte</td>
+            <td>Approximation : programmation linéaire</td>
+        </tr>
+        <tr>
+            <td>10<br><span class="note">30 mars&ndash;3 avr.</span></td>
+            <td>Probabiliste : algorithmes en ligne</td>
+            <td>Algorithmes en ligne</td>
+            <td>Algorithmes de texte</td>
+        </tr>
+        <tr>
+            <td>11<br><span class="note">6&ndash;10 avr.</span></td>
+            <td class="no-class">&mdash;</td>
+            <td>TBA</td>
+            <td>Algorithmes en ligne<div class="note">TD le lun. 13 avr.</div></td>
+        </tr>
+        <tr>
+            <td>12<br><span class="note">13&ndash;17 avr.</span></td>
+            <td>Probabiliste : structures de données
+                <div class="note">Cours le jeu. 9 avr.</div>
+            </td>
+            <td class="no-class">&mdash;</td>
+            <td>Structures de données probabilistes</td>
+        </tr>
+        <tr>
+            <td>13<br><span class="note">20&ndash;24 avr.</span></td>
+            <td>Distribué : systèmes synchrones</td>
+            <td>Systèmes synchrones</td>
+            <td>Systèmes synchrones</td>
+        </tr>
+        <tr>
+            <td>14<br><span class="note">4&ndash;8 mai</span></td>
+            <td>Distribué : systèmes asynchrones</td>
+            <td>Systèmes asynchrones</td>
+            <td>Systèmes asynchrones</td>
+        </tr>
+        <tr>
+            <td>15<br><span class="note">11&ndash;15 mai</span></td>
+            <td>Distribué : consensus approché et randomisé</td>
+            <td>Consensus approché et randomisé</td>
+            <td class="no-class">&mdash;</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><strong>Examen final</strong> (18 mai)</td>
+            <td class="no-class">&mdash;</td>
+            <td class="no-class">&mdash;</td>
+        </tr>
+    </tbody>
+</table>
+
+<footer>
+    <p>Planning prévisionnel, susceptible de modifications.</p>
+</footer>
+
+</body>
+</html>
