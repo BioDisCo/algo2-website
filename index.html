@@ -1,242 +1,345 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algorithmique avancée (Partie 2)</title>
+    <title>Advanced Algorithmics &mdash; ENS Paris-Saclay</title>
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #1a1a1a;
-            --muted: #555;
-            --accent: #2c5aa0;
-            --border: #ddd;
-            --stripe: #f7f9fc;
+            --bg: #fffefc;
+            --text: #1c1b19;
+            --muted: #6b675f;
+            --accent: #1f4e8c;
+            --rule: #1c1b19;
+            --hairline: #e3e0da;
+            color-scheme: light dark;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #191919;
+                --text: #e6e4e0;
+                --muted: #a09c94;
+                --accent: #8ab0e0;
+                --rule: #e6e4e0;
+                --hairline: #3a3936;
+            }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+            font-size: 1.05rem;
             color: var(--text);
             background: var(--bg);
-            line-height: 1.6;
-            max-width: 960px;
+            line-height: 1.55;
+            max-width: 46rem;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
+            padding: 2.5rem 1.25rem 3rem;
         }
 
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
         header {
-            margin-bottom: 2.5rem;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 1.1rem;
+            margin-bottom: 0.4rem;
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: 700;
-            color: var(--accent);
+            letter-spacing: 0.01em;
         }
 
-        header p {
+        header .sub {
             color: var(--muted);
-            margin-top: 0.3rem;
+            margin-top: 0.2rem;
+        }
+
+        section {
+            margin-top: 2.6rem;
         }
 
         h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 2rem 0 0.8rem;
-            color: var(--text);
+            font-size: 1.35rem;
+            font-weight: 700;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0.3rem 1.5rem;
+        .meta {
+            color: var(--muted);
             margin-bottom: 1rem;
         }
 
-        .info-grid dt {
-            font-weight: 600;
-            color: var(--muted);
+        .info {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 0.1rem 1.4rem;
+            margin: 0.9rem 0 1.4rem;
         }
 
-        .info-grid dd {
-            color: var(--text);
-        }
+        .info dt { color: var(--muted); }
 
-        a { color: var(--accent); }
+        .tablewrap { overflow-x: auto; }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 0.5rem;
-            font-size: 0.92rem;
+            border-top: 2px solid var(--rule);
+            border-bottom: 2px solid var(--rule);
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
 
         thead th {
-            background: var(--accent);
-            color: #fff;
-            padding: 0.6rem 0.8rem;
-            text-align: left;
+            font-variant-caps: all-small-caps;
+            letter-spacing: 0.04em;
             font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
+            text-align: left;
+            padding: 0.45rem 1rem 0.45rem 0;
+            border-bottom: 1px solid var(--rule);
         }
-
-        tbody tr:nth-child(even) { background: var(--stripe); }
-        tbody tr:hover { background: #edf2fa; }
 
         td {
-            padding: 0.55rem 0.8rem;
-            border-bottom: 1px solid var(--border);
-            vertical-align: top;
+            padding: 0.5rem 1rem 0.5rem 0;
+            border-top: 1px solid var(--hairline);
+            vertical-align: baseline;
         }
 
-        td:first-child {
-            font-weight: 600;
-            white-space: nowrap;
-            text-align: center;
-        }
+        tbody tr:first-child td { border-top: none; }
+        th:last-child, td:last-child { padding-right: 0; }
 
-        .note {
-            color: var(--muted);
-            font-size: 0.82rem;
-            font-style: italic;
-        }
+        td.d { white-space: nowrap; font-variant-numeric: tabular-nums; }
+        td.s { white-space: nowrap; }
 
-        .no-class {
-            color: #999;
-        }
+        tr.exam td { border-top: 1px solid var(--rule); }
 
         footer {
             margin-top: 3rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--rule);
+            padding-top: 0.8rem;
             color: var(--muted);
-            font-size: 0.82rem;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 600px) {
-            body { padding: 1rem; }
-            table { font-size: 0.82rem; }
-            td, th { padding: 0.4rem; }
+            body { padding: 1.5rem 1rem 2rem; font-size: 1rem; }
+            thead th, td { padding-right: 0.6rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Algorithmique avancée (Partie 2)</h1>
-    <p>Année 2025&ndash;2026</p>
+    <h1>Advanced Algorithmics</h1>
+    <p class="sub">ENS Paris-Saclay &middot; 2026&ndash;2027</p>
 </header>
 
-<h2>Informations pratiques</h2>
-<dl class="info-grid">
-    <dt>Chargé de cours</dt>
-    <dd><a href="https://www.thomasnowak.net/">Thomas Nowak</a></dd>
-    <dt>Chargé de TD</dt>
-    <dd><a href="https://ghoshdhruba.github.io/">Dhrubajyoti Ghosh</a></dd>
-    <dt>Salle</dt>
-    <dd>1Z61, ENS Paris-Saclay</dd>
-    <dt>Cours magistral</dt>
-    <dd>Lundi 8h15&ndash;10h15</dd>
-    <dt>Récitation</dt>
-    <dd>Mardi 9h&ndash;10h</dd>
-    <dt>TD</dt>
-    <dd>Jeudi 9h&ndash;11h</dd>
-    <dt>Polycopié</dt>
-    <dd><a href="algo2.pdf">Notes de cours (PDF)</a></dd>
-</dl>
+<section id="apsa">
+    <h2>Approximation and String Algorithms</h2>
+    <dl class="info">
+        <dt>Lectures</dt>
+        <dd><a href="https://www.thomasnowak.net/">Thomas Nowak</a> &middot; Mondays 8:30&ndash;10:30, room 1O07</dd>
+        <dt>Problem sessions</dt>
+        <dd><a href="https://home.lmf.cnrs.fr/MihaelaSighireanu/">Mihaela Sighireanu</a> &middot; Mondays 10:45&ndash;12:45, room 1O07</dd>
+        <dt>Lecture notes</dt>
+        <dd><a href="apsa.pdf">PDF</a> &middot; updated as the course progresses</dd>
+    </dl>
 
-<h2>Planning</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Sem.</th>
-            <th>Cours magistral (lun.)</th>
-            <th>Récitation (mar.)</th>
-            <th>TD (jeu.)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>6<br><span class="note">23&ndash;27 fév.</span></td>
-            <td>Approximation : intro 
-                <div class="note">Cours le jeu. 19 fév.</div>
-            </td>
-            <td class="no-class">&mdash;</td>
-            <td class="no-class">&mdash;</td>
-        </tr>
-        <tr>
-            <td>7<br><span class="note">9&ndash;13 mars</span></td>
-            <td>Approximation : combinatoire</td>
-            <td>Approximation</td>
-            <td>Approximation : set cover [<a href="TD2025_2026/algo2-td07.pdf">TD7</a>]</td>
-        </tr>
-        <tr>
-            <td>8<br><span class="note">16&ndash;20 mars</span></td>
-            <td>Approximation : programmation linéaire</td>
-            <td>Approximation : programmation linéaire</td>
-            <td class="note">Partiel (partie 1)</td>
-        </tr>
-        <tr>
-            <td>9<br><span class="note">23&ndash;27 mars</span></td>
-            <td>Algorithmes de texte</td>
-            <td>Algorithmes de texte</td>
-            <td>Algorithmes de texte et programmation linéaire [<a href="TD2025_2026/algo2-td08.pdf">TD8</a>] [<a href="TD2025_2026/algo2-td08-sols.pdf">Solutions</a>]</td>
-        </tr>
-        <tr>
-            <td>10<br><span class="note">30 mars&ndash;3 avr.</span></td>
-            <td>Probabiliste : algorithmes en ligne</td>
-            <td>Algorithmes en ligne</td>
-            <td>k-Centre et la méthode probabiliste [<a href="TD2025_2026/algo2-td09.pdf">TD9</a>] [<a href="TD2025_2026/algo2-td09-sols.pdf">Solutions</a>]</td>
-        </tr>
-        <tr>
-            <td>11<br><span class="note">6&ndash;10 avr.</span></td>
-            <td class="no-class">&mdash;</td>
-            <td>TBA</td>
-            <td>Least Recently Used, MAX-SAT [<a href="TD2025_2026/algo2_td10.pdf">TD10</a>] [<a href="TD2025_2026/algo2_td10_sols.pdf">Solutions</a>] [<a href="TD2025_2026/algo2-hw1.pdf">DM01</a>] <div class="note">TD le lun. 13 avr.</div></td>
-        </tr>
-        <tr>
-            <td>12<br><span class="note">13&ndash;17 avr.</span></td>
-            <td>Probabiliste : structures de données
-                <div class="note">Cours le jeu. 9 avr. à 9h30</div>
-            </td>
-            <td class="no-class">&mdash;</td>
-            <td>&epsilon;- and <i>k</i>-Universal hashing [<a href="TD2025_2026/algo2-td11.pdf">TD11</a>] [<a href="TD2025_2026/algo2-td11-sols.pdf">Solutions</a>]</td>
-        </tr>
-        <tr>
-            <td>13<br><span class="note">20&ndash;24 avr.</span></td>
-            <td>Distribué : systèmes synchrones</td>
-            <td>Systèmes synchrones</td>
-            <td>Systèmes synchrones</td>
-        </tr>
-        <tr>
-            <td>14<br><span class="note">4&ndash;8 mai</span></td>
-            <td>Distribué : systèmes asynchrones</td>
-            <td>Systèmes asynchrones</td>
-            <td>Systèmes asynchrones</td>
-        </tr>
-        <tr>
-            <td>15<br><span class="note">11&ndash;15 mai</span></td>
-            <td>Distribué : consensus approché et randomisé</td>
-            <td>Consensus approché et randomisé</td>
-            <td class="no-class">&mdash;</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><strong>Examen final</strong> (18 mai)</td>
-            <td class="no-class">&mdash;</td>
-            <td class="no-class">&mdash;</td>
-        </tr>
-    </tbody>
-</table>
+    <div class="tablewrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Session</th>
+                <th>Topic</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="d">Sep 7</td>
+                <td class="s">Lecture 1</td>
+                <td>Vertex cover, set cover, subset sum</td>
+            </tr>
+            <tr>
+                <td class="d">Sep 7</td>
+                <td class="s">Lecture 2</td>
+                <td>Metric TSP, knapsack, load balancing</td>
+            </tr>
+            <tr>
+                <td class="d">Sep 14</td>
+                <td class="s">Lecture 3</td>
+                <td>Linear programming, MAX-CUT</td>
+            </tr>
+            <tr>
+                <td class="d">Sep 14</td>
+                <td class="s">Problem session 1</td>
+                <td>Greedy approximation</td>
+            </tr>
+            <tr>
+                <td class="d">Sep 21</td>
+                <td class="s">Lecture 4</td>
+                <td>k-center, local search</td>
+            </tr>
+            <tr>
+                <td class="d">Sep 21</td>
+                <td class="s">Problem session 2</td>
+                <td>TSP, knapsack, scheduling</td>
+            </tr>
+            <tr>
+                <td class="d">Sep 28</td>
+                <td class="s">Lecture 5</td>
+                <td>Morris&ndash;Pratt, Knuth&ndash;Morris&ndash;Pratt</td>
+            </tr>
+            <tr>
+                <td class="d">Sep 28</td>
+                <td class="s">Problem session 3</td>
+                <td>LP relaxations and rounding</td>
+            </tr>
+            <tr>
+                <td class="d">Oct 5</td>
+                <td class="s">Lecture 6</td>
+                <td>Simon's algorithm, Boyer&ndash;Moore</td>
+            </tr>
+            <tr>
+                <td class="d">Oct 5</td>
+                <td class="s">Problem session 4</td>
+                <td>k-center and local search</td>
+            </tr>
+            <tr>
+                <td class="d">Oct 12</td>
+                <td class="s">Problem session 5</td>
+                <td>Borders, periods, Fine&ndash;Wilf</td>
+            </tr>
+            <tr>
+                <td class="d">Oct 12</td>
+                <td class="s">Problem session 6</td>
+                <td>String-matching automata, Boyer&ndash;Moore</td>
+            </tr>
+            <tr>
+                <td class="d">Oct 19</td>
+                <td class="s">Lecture 7</td>
+                <td>Two-way string matching</td>
+            </tr>
+            <tr>
+                <td class="d">Oct 19</td>
+                <td class="s">Problem session 7</td>
+                <td>Critical factorizations, two-way matching</td>
+            </tr>
+            <tr class="exam">
+                <td class="d">Nov 2</td>
+                <td colspan="2"><strong>Final exam</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<section id="dona">
+    <h2>Distributed and Online Algorithms</h2>
+    <dl class="info">
+        <dt>Lectures</dt>
+        <dd><a href="https://www.thomasnowak.net/">Thomas Nowak</a> &middot; Mondays 8:30&ndash;10:30, room 1O07</dd>
+        <dt>Problem sessions</dt>
+        <dd>Mondays 10:45&ndash;12:45, room 1O07</dd>
+        <dt>Lecture notes</dt>
+        <dd><a href="dona.pdf">PDF</a> &middot; updated as the course progresses</dd>
+    </dl>
+
+    <div class="tablewrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Session</th>
+                <th>Topic</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="d">Jan 18</td>
+                <td class="s">Lecture 1</td>
+                <td>Quicksort, secretary problem, online paging</td>
+            </tr>
+            <tr>
+                <td class="d">Jan 18</td>
+                <td class="s">Problem session 1</td>
+                <td>Ski rental, paging, secretary variants</td>
+            </tr>
+            <tr>
+                <td class="d">Jan 25</td>
+                <td class="s">Lecture 2</td>
+                <td>Skip lists, universal hashing</td>
+            </tr>
+            <tr>
+                <td class="d">Jan 25</td>
+                <td class="s">Problem session 2</td>
+                <td>Universal hashing, skip lists, Rabin&ndash;Karp</td>
+            </tr>
+            <tr>
+                <td class="d">Feb 1</td>
+                <td class="s">Lecture 3</td>
+                <td>Chernoff bounds, balls into bins</td>
+            </tr>
+            <tr>
+                <td class="d">Feb 1</td>
+                <td class="s">Problem session 3</td>
+                <td>Probabilistic method, coupon collector</td>
+            </tr>
+            <tr>
+                <td class="d">Feb 8</td>
+                <td class="s">Lecture 4</td>
+                <td>Synchronous message passing, BFS, coloring</td>
+            </tr>
+            <tr>
+                <td class="d">Feb 8</td>
+                <td class="s">Problem session 4</td>
+                <td>Synchronous model, BFS, Cole&ndash;Vishkin</td>
+            </tr>
+            <tr>
+                <td class="d">Feb 22</td>
+                <td class="s">Lecture 5</td>
+                <td>Symmetry breaking, Luby's MIS</td>
+            </tr>
+            <tr>
+                <td class="d">Feb 22</td>
+                <td class="s">Problem session 5</td>
+                <td>MIS and coloring, leader election in rings</td>
+            </tr>
+            <tr>
+                <td class="d">Mar 1</td>
+                <td class="s">Lecture 6</td>
+                <td>Asynchrony, faults, FLP impossibility</td>
+            </tr>
+            <tr>
+                <td class="d">Mar 1</td>
+                <td class="s">Problem session 6</td>
+                <td>Asynchronous BFS, bivalence arguments</td>
+            </tr>
+            <tr>
+                <td class="d">Mar 8</td>
+                <td class="s">Lecture 7</td>
+                <td>Approximate, randomized, Byzantine consensus</td>
+            </tr>
+            <tr>
+                <td class="d">Mar 8</td>
+                <td class="s">Problem session 7</td>
+                <td>Consensus rates and resilience bounds</td>
+            </tr>
+            <tr class="exam">
+                <td class="d">Mar 15</td>
+                <td colspan="2"><strong>Final exam</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</section>
 
 <footer>
-    <p>Planning prévisionnel, susceptible de modifications.</p>
+    <p>Schedules are subject to change. &middot; <a href="2025_2026.html">2025&ndash;2026 course page</a></p>
 </footer>
 
 </body>
